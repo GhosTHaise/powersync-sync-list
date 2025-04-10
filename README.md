@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PowerSync App
+
+Welcome to the PowerSync App! Follow the steps below to set up and run the application locally.
+
+## Prerequisites
+
+Ensure you have the following installed on your system:
+- [Docker](https://www.docker.com/)
+- [pnpm](https://pnpm.io/)
 
 ## Getting Started
 
-First, run the development server:
+1. **Start PowerSync using Docker Compose**  
+    Navigate to the `powersync` folder and run the following command to start PowerSync services:
+    ```bash
+    docker-compose up
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Set Up the Application**  
+    - Rename the `.env.example` file to `.env`:
+      ```bash
+      mv .env.example .env
+      ```
+    - Install dependencies:
+      ```bash
+      pnpm install
+      ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Run Database Migrations**  
+    Execute the following command to run the database migrations using Drizzle:
+    ```bash
+    pnpm run migrate
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Start the Application**  
+    Launch the app in development mode:
+    ```bash
+    pnpm run dev
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Notes
 
-## Learn More
+- This setup uses PowerSync locally. The token is hardcoded for development purposes.
+- We utilize the following libraries for token generation and management:
+  - `key-generator`
+  - `token-service` (from the PowerSync demo repository)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Feel free to explore and modify the app as needed. Happy coding!
