@@ -1,0 +1,46 @@
+replication:
+  connections:
+    - type: postgresql
+      uri: postgresql://postgres:postgres@postgres:5432/postgres
+
+      # SSL settings
+      sslmode: disable # 'verify-full' (default) or 'verify-ca' or 'disable'
+
+# Connection settings for sync bucket storage
+storage:
+  type: mongodb
+  uri: mongodb://mongo:27017/powersync_demo
+
+# The port which the PowerSync API server will listen on
+port: 8080
+
+# Specify sync rules
+sync_rules:
+  # TODO use specific sync rules here
+  content: |
+    bucket_definitions:
+      global:
+        data:
+          - SELECT * FROM lists
+          - SELECT * FROM todos
+
+# Settings for client authentication
+client_auth:
+  # Enable this if using Supabase Auth
+  supabase: false
+
+  # JWKS URIs can be specified here.
+  jwks:
+    keys:
+      - kty: "oct"
+        k: "r6FRryjPRIcEGbZzN50lyXxzN9K1GubPDJoo8fwkbwS9-l84F9A1mmE2JdOo-rsu5vuiY_gyFwFlklMBccxnQBVDnyeoKelRU8Pf8i7pw5-CErG1qrPkF_Ar7JmC5qyn0OTqxTBKZ-SzwsZDyMKcclM1aV5OLMRtAVupi58Vk3wv8MlW2LJ5tRg6DkYDMHV0WQf6dAD9-G8UZKy9O26AaWoJg61QrFSoXCG0oOJ20atR6_7bZaICPaydBo8eqLZY-NoA9uXptYN8J7ykUrTGz0eUf9ou31wWAE1dgHuDObXagLJHdWfAYpmIg5uLSNGEdSPAzPa8vgBpGQ1RodpNEQ"
+        alg: "HS256"
+
+  # JWKS audience
+  audience: ["powersync-dev", "powersync"]
+
+  # Settings for telemetry reporting
+  # See https://docs.powersync.com/self-hosting/telemetry
+  telemetry:
+    # Opt out of reporting anonymized usage metrics to PowerSync telemetry service
+    disable_telemetry_sharing: false
