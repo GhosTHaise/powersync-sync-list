@@ -3,25 +3,41 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@journeyapps/wa-sqlite": "^1.2.2",
+    "@powersync/react": "^1.5.2",
+    "@powersync/web": "^1.18.0",
+    "@radix-ui/react-slot": "^1.2.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.41.0",
+    "js-logger": "^1.6.1",
+    "lucide-react": "^0.487.0",
+    "next": "15.2.5",
+    "pg": "^8.14.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.2.5"
+    "tailwind-merge": "^3.2.0",
+    "tw-animate-css": "^1.2.5"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.11.11",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
+    "drizzle-kit": "^0.30.6",
     "eslint": "^9",
     "eslint-config-next": "15.2.5",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "tsx": "^4.19.3",
+    "typescript": "^5"
   }
 }
