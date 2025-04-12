@@ -1,32 +1,48 @@
-
+import { v4 as uuid } from 'uuid';
 import { AbstractPowerSyncDatabase, PowerSyncBackendConnector, UpdateType } from '@powersync/web';
+import config from '../config';
+const USER_ID_STORAGE_KEY = 'ps_user_id';
 
 export class BackendConnector implements PowerSyncBackendConnector {
-    private powersyncUrl: string | undefined;
-    private powersyncToken: string | undefined;
+    readonly userId: string;
 
     constructor() {
-        this.powersyncUrl = process.env.NEXT_PUBLIC_POWERSYNC_URL;
-        // This token is for development only.
-        // For production applications, integrate with an auth provider or custom auth.
-        this.powersyncToken = process.env.NEXT_PUBLIC_POWERSYNC_TOKEN;
+        let userId = localStorage.getItem(USER_ID_STORAGE_KEY);
+        if (!userId) {
+            userId = uuid();
+            localStorage.setItem(USER_ID_STORAGE_KEY, userId);
+        }
+        this.userId = userId;
     }
 
     async fetchCredentials() {
-        // TODO: Use an authentication service or custom implementation here.
-        if (this.powersyncToken == null || this.powersyncUrl == null) {
-            return null;
+        const tokenEndpoint = 'api/auth';
+        const res = await fetch(`/${tokenEndpoint}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: this.userId
+            })
+        });
+    
+        if (!res.ok) {
+          throw new Error(`Received ${res.status} from ${tokenEndpoint}: ${await res.text()}`);
         }
-
+    
+        const {token , powersync_url} = await res.json();
+    
         return {
-            endpoint: this.powersyncUrl,
-            token: this.powersyncToken
+          endpoint: powersync_url,
+          token
         };
-    }
+      }
 
     async uploadData(database: AbstractPowerSyncDatabase): Promise<void> {
         const transaction = await database.getNextCrudTransaction();
-
+        const clientId = await database.getClientId();
+        console.log("🚀 ~ BackendConnector ~ uploadData ~ clientId:", clientId)
         if (!transaction) {
             return;
         }
@@ -38,12 +54,14 @@ export class BackendConnector implements PowerSyncBackendConnector {
 
                 switch (op.op) {
                     case UpdateType.PUT:
-                        fetch(`/api/lists/create`, {
+                        const response = await fetch(`/api/lists/create`, {
                             method: 'POST',
                             body: JSON.stringify(record),
                         })
-                        .then(response => response.json())
-                        .then(data => console.log(data))
+                        if (!response.ok) {
+                            throw new Error(`Received ${response.status} from /api/data: ${await response.text()}`);
+                        }
+                        await transaction.complete(record.id);
                         break;
                     case UpdateType.PATCH:
                         // TODO: Instruct your backend API to PATCH a record
@@ -56,7 +74,7 @@ export class BackendConnector implements PowerSyncBackendConnector {
             await transaction.complete();
         } catch (error: any) {
             console.error(`Data upload error - discarding`, error);
-            await transaction.complete();
+            //await transaction.complete();
         }
     }
 }

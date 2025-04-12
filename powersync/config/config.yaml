@@ -30,12 +30,12 @@ client_auth:
   supabase: false
 
   # JWKS URIs can be specified here.
-  jwks:
-    keys:
-      - kty: "oct"
-        k: "r6FRryjPRIcEGbZzN50lyXxzN9K1GubPDJoo8fwkbwS9-l84F9A1mmE2JdOo-rsu5vuiY_gyFwFlklMBccxnQBVDnyeoKelRU8Pf8i7pw5-CErG1qrPkF_Ar7JmC5qyn0OTqxTBKZ-SzwsZDyMKcclM1aV5OLMRtAVupi58Vk3wv8MlW2LJ5tRg6DkYDMHV0WQf6dAD9-G8UZKy9O26AaWoJg61QrFSoXCG0oOJ20atR6_7bZaICPaydBo8eqLZY-NoA9uXptYN8J7ykUrTGz0eUf9ou31wWAE1dgHuDObXagLJHdWfAYpmIg5uLSNGEdSPAzPa8vgBpGQ1RodpNEQ"
-        alg: "HS256"
-
+  #jwks:
+  #  keys:
+  #    - kty: "oct"
+  #      k: "r6FRryjPRIcEGbZzN50lyXxzN9K1GubPDJoo8fwkbwS9-l84F9A1mmE2JdOo-rsu5vuiY_gyFwFlklMBccxnQBVDnyeoKelRU8Pf8i7pw5-CErG1qrPkF_Ar7JmC5qyn0OTqxTBKZ-SzwsZDyMKcclM1aV5OLMRtAVupi58Vk3wv8MlW2LJ5tRg6DkYDMHV0WQf6dAD9-G8UZKy9O26AaWoJg61QrFSoXCG0oOJ20atR6_7bZaICPaydBo8eqLZY-NoA9uXptYN8J7ykUrTGz0eUf9ou31wWAE1dgHuDObXagLJHdWfAYpmIg5uLSNGEdSPAzPa8vgBpGQ1RodpNEQ"
+  #      alg: "HS256"
+  jwks_uri: http://localhost:3000/api/auth
   # JWKS audience
   audience: ["powersync-dev", "powersync"]
 
